@@ -72,6 +72,17 @@ ol.tl{list-style:none;margin:14px 0 0;padding:0}
 .row.move .mv{padding:4px 0;color:var(--move);font-size:.84rem}
 .row.move .mv b{color:var(--ink);font-weight:500}
 
+.gift{margin-top:28px;scroll-margin-top:70px}
+.gift h2{margin:0;font-size:1.35rem;font-weight:900}
+.gift .sub{color:var(--muted);font-size:.88rem}
+.glist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.glist label{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.glist input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent)}
+.glist .who{font-weight:700}
+.glist .what{display:block;font-size:.92rem}
+.glist .where{display:block;color:var(--muted);font-size:.82rem}
+.glist input:checked ~ span .what{text-decoration:line-through;color:var(--muted)}
+.glist input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .notes{margin-top:30px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .notes h2{margin:0 0 8px;font-size:1.05rem;font-weight:900}
 .notes ul{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:.88rem}
@@ -102,7 +113,7 @@ footer{margin-top:20px;color:var(--muted);font-size:.78rem}
   </div>
 </header>
 
-<nav><a href="#d1">10/30（金）</a><a href="#d2">10/31（土）</a><a href="#memo">要確認</a></nav>
+<nav><a href="#d1">10/30（金）</a><a href="#d2">10/31（土）</a><a href="#gift">お土産</a><a href="#memo">要確認</a></nav>
 
 <section id="d1">
   <div class="dayhead"><h2>10/30（金）</h2><span class="sub">原宿・表参道 → 新宿 → 麹町 → 赤坂 → 銀座</span></div>
@@ -151,6 +162,32 @@ footer{margin-top:20px;color:var(--muted);font-size:.78rem}
     <li class="row fixed"><div class="t">20:20</div><div class="body"><div class="card"><h3>羽田 → 秋田 出発 <span class="tag fix">固定</span></h3><p>21:30 秋田空港着</p></div></div></li>
   </ol>
 </section>
+
+<section class="gift" id="gift">
+  <h2>お土産リスト</h2>
+  <div class="sub">買ったらチェック。チェックはこの端末のブラウザに保存されます</div>
+  <ul class="glist">
+    <li><label for="g-mother"><input type="checkbox" id="g-mother" data-gift><span><span class="who">お母さん</span><span class="what">エスターバニーのグッズ</span><span class="where">1日目のキデイランド原宿・東急プラザ表参道で探す（取扱いは未確認）</span></span></label></li>
+    <li><label for="g-maou"><input type="checkbox" id="g-maou" data-gift><span><span class="who">舞桜</span><span class="what">あたしンちのグッズ</span><span class="where">1日目のキデイランド原宿で探す（取扱いは未確認）。なければ空港のキャラクターショップも</span></span></label></li>
+    <li><label for="g-family1"><input type="checkbox" id="g-family1" data-gift><span><span class="who">家族</span><span class="what">お菓子 1種目</span><span class="where">羽田 第2ターミナルで2日目の夕方に買うと持ち歩かずに済む</span></span></label></li>
+    <li><label for="g-family2"><input type="checkbox" id="g-family2" data-gift><span><span class="who">家族</span><span class="what">お菓子 2種目</span><span class="where">同上。1日目の京王百貨店のデパ地下で日持ちするものを選んでもOK</span></span></label></li>
+    <li><label for="g-sato"><input type="checkbox" id="g-sato" data-gift><span><span class="who">里理さん</span><span class="what">現地で検討</span><span class="where">回る店で良さそうなものがあれば。迷ったら羽田で</span></span></label></li>
+  </ul>
+</section>
+<script>
+(function(){
+  var KEY='tokyo-trip-gifts';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  document.querySelectorAll('input[data-gift]').forEach(function(cb){
+    if(saved[cb.id])cb.checked=true;
+    cb.addEventListener('change',function(){
+      saved[cb.id]=cb.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}
+    });
+  });
+})();
+</script>
 
 <div class="notes" id="memo">
   <h2>出発前に確認しておくこと</h2>
