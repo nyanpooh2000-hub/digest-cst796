@@ -24,6 +24,10 @@
   .badge { display:inline-block; background:#e53935; color:#fff; font-size:10px; padding:1px 6px; border-radius:8px; margin-right:6px; vertical-align:middle; }
   .err { color:#c62828; font-size:12px; padding:9px 16px; }
   footer { text-align:center; font-size:11px; opacity:.6; padding:20px; }
+  .tabs { display:flex; flex-wrap:wrap; gap:4px; background:#2b2f3a; padding:8px 12px 0; }
+  .tabs a { color:#cfd3dc; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px 8px 0 0; }
+  .tabs a:hover { color:#fff; }
+  .tabs a.on { background:#f5f6f8; color:#1b1d22; font-weight:bold; }
   @media (prefers-color-scheme: dark) {
     body { background:#1b1d22; color:#e6e6e6; }
     .site { background:#262a33; }
@@ -31,18 +35,14 @@
     li { border-top-color:#33384300; border-top:1px solid #333; }
     .new { background:#3a3320; }
     li a { color:#7ab0ff; }
+    .tabs a.on { background:#1b1d22; color:#e6e6e6; }
   }
-  .tabs { display:flex; gap:4px; background:#2b2f3a; padding:8px 12px 0; }
-  .tabs a { color:#cfd3dc; text-decoration:none; font-size:14px; padding:8px 14px; border-radius:8px 8px 0 0; }
-  .tabs a:hover { color:#fff; }
-  .tabs a.on { background:#f5f6f8; color:#1b1d22; font-weight:bold; }
-  @media (prefers-color-scheme: dark) { .tabs a.on { background:#1b1d22; color:#e6e6e6; } }
 </style>
 </head>
 <body>
 <header>
   <h1>📰 サイト更新まとめ</h1>
-  <div class="sub">最終チェック: 2026-10-28 08:00:05 ／ 監視サイト数: 5 ／ このページは5分ごとに自動再読込</div>
+  <div class="sub">最終チェック: 2026-10-29 08:00:25 ／ 監視サイト数: 5 ／ このページは5分ごとに自動再読込</div>
 </header>
 <div class="tabs"><a href="./" class="on">📰 更新まとめ</a><a href="schedule.html">✈️ 東京出張</a></div>
 <div class="wrap">
