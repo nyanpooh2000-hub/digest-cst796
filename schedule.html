@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>東京出張 10/30–31</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 縦1列の時刻表。左に時刻レール、右に行き先カード。日ごとにセクション、上部に日付ジャンプ。 */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18202c; --muted:#5d6676; --line:#dde1e8;
+  --accent:#1f5fae; --accent-soft:#e6eef9;
+  --fix:#b5462a; --fix-soft:#fbebe5;
+  --move:#6c7586; --warn:#8a6100; --warn-soft:#fdf3d8;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1b212b; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3441;
+  --accent:#7fb0ef; --accent-soft:#1d2c42; --fix:#f08a6c; --fix-soft:#3a2219;
+  --move:#8b94a5; --warn:#e7c06a; --warn-soft:#352b14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1b212b; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3441;
+  --accent:#7fb0ef; --accent-soft:#1d2c42; --fix:#f08a6c; --fix-soft:#3a2219;
+  --move:#8b94a5; --warn:#e7c06a; --warn-soft:#352b14; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header h1{font-size:1.6rem;font-weight:900;margin:0;letter-spacing:.02em;text-wrap:balance}
+header p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.flight{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.flight b{display:block;font-size:.72rem;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.flight span{font-family:var(--f-num);font-weight:600;font-size:1.05rem}
+.flight small{display:block;color:var(--muted);font-size:.8rem}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:8px;padding-block:12px;margin-top:8px;border-bottom:1px solid var(--line)}
+nav a{flex:1;text-align:center;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:700;font-size:.9rem}
+nav a:focus-visible,nav a:hover{border-color:var(--accent);color:var(--accent)}
+
+section{margin-top:28px;scroll-margin-top:70px}
+.dayhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.dayhead h2{margin:0;font-size:1.35rem;font-weight:900}
+.dayhead .sub{color:var(--muted);font-size:.88rem}
+
+ol.tl{list-style:none;margin:14px 0 0;padding:0}
+.row{display:grid;grid-template-columns:62px 1fr;gap:12px;position:relative}
+.row .t{font-family:var(--f-num);font-weight:600;font-size:.95rem;font-variant-numeric:tabular-nums;padding-top:12px;text-align:right}
+.row .t small{display:block;font-size:.72rem;color:var(--muted);font-weight:500}
+.row .body{min-width:0;border-left:2px solid var(--line);padding:8px 0 8px 16px;position:relative}
+.row .body::before{content:"";position:absolute;left:-7px;top:17px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card h3{margin:0;font-size:1rem;font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.card p{margin:4px 0 0;color:var(--muted);font-size:.86rem}
+.tag{font-size:.7rem;font-weight:700;letter-spacing:.04em;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.tag.stay{background:var(--accent-soft);color:var(--accent)}
+.tag.fix{background:var(--fix-soft);color:var(--fix)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+
+.row.fixed .body::before{border-color:var(--fix);background:var(--fix)}
+.row.fixed .card{border-color:color-mix(in srgb,var(--fix) 45%,var(--line))}
+.row.move .body::before{width:8px;height:8px;left:-5px;top:14px;border-color:var(--move)}
+.row.move .t{padding-top:6px;color:var(--muted);font-size:.82rem}
+.row.move .mv{padding:4px 0;color:var(--move);font-size:.84rem}
+.row.move .mv b{color:var(--ink);font-weight:500}
+
+.notes{margin-top:30px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.notes h2{margin:0 0 8px;font-size:1.05rem;font-weight:900}
+.notes ul{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:.88rem}
+.tbl{overflow-x:auto;margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:.85rem;min-width:460px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.06em;color:var(--muted);font-weight:700}
+td.h{font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+footer{margin-top:20px;color:var(--muted);font-size:.78rem}
+@media (max-width:420px){.row{grid-template-columns:52px 1fr;gap:8px}.flights{grid-template-columns:1fr}}
+
+.tabs{display:flex;gap:4px;background:#2b2f3a;padding:8px 12px 0;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+.tabs a{color:#cfd3dc;text-decoration:none;font-size:14px;padding:8px 14px;border-radius:8px 8px 0 0;font-family:"Segoe UI","Meiryo",sans-serif}
+.tabs a:hover{color:#fff}
+.tabs a.on{background:var(--bg);color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="tabs"><a href="./">📰 更新まとめ</a><a href="schedule.html" class="on">✈️ 東京出張</a></div>
+<div class="wrap">
+<header>
+  <h1>東京出張 タイムスケジュール</h1>
+  <p>2026年10月30日（金）〜31日（土）／ICD-11研修（日本病院会）</p>
+  <div class="flights">
+    <div class="flight"><b>往路 10/30</b><span>12:00 → 13:10</span><small>秋田空港 → 羽田 第2ターミナル</small></div>
+    <div class="flight"><b>復路 10/31</b><span>20:20 → 21:30</span><small>羽田 第2ターミナル → 秋田空港</small></div>
+  </div>
+</header>
+
+<nav><a href="#d1">10/30（金）</a><a href="#d2">10/31（土）</a><a href="#memo">要確認</a></nav>
+
+<section id="d1">
+  <div class="dayhead"><h2>10/30（金）</h2><span class="sub">原宿・表参道 → 新宿 → 麹町 → 赤坂 → 銀座</span></div>
+  <ol class="tl">
+    <li class="row fixed"><div class="t">13:10</div><div class="body"><div class="card"><h3>羽田空港 第2ターミナル 着 <span class="tag fix">固定</span></h3><p>13:30 から自由行動</p></div></div></li>
+    <li class="row move"><div class="t">13:30</div><div class="body"><div class="mv"><b>京急</b> 羽田第2 → 品川 → <b>JR山手線</b> 原宿（約45分）</div></div></li>
+    <li class="row"><div class="t">14:20<small>〜14:55</small></div><div class="body"><div class="card"><h3>一蘭 原宿神宮前店 <span class="tag stay">昼食 35分</span></h3><p>明治神宮前駅すぐ。荷物が重ければ駅のコインロッカーへ</p></div></div></li>
+    <li class="row move"><div class="t">14:55</div><div class="body"><div class="mv">表参道を徒歩 約3分</div></div></li>
+    <li class="row"><div class="t">15:00<small>〜15:45</small></div><div class="body"><div class="card"><h3>キデイランド原宿 <span class="tag stay">45分</span></h3><p>神宮前6-1-9。地下1階〜4階</p></div></div></li>
+    <li class="row"><div class="t">15:50<small>〜16:20</small></div><div class="body"><div class="card"><h3>東急プラザ表参道 <span class="tag stay">30分</span></h3><p>神宮前交差点。キデイランドから徒歩すぐ</p></div></div></li>
+    <li class="row move"><div class="t">16:25</div><div class="body"><div class="mv"><b>JR山手線</b> 原宿 → 新宿（約5分）、西口へ</div></div></li>
+    <li class="row"><div class="t">16:40<small>〜17:20</small></div><div class="body"><div class="card"><h3>京王百貨店 新宿店 <span class="tag stay">40分</span></h3><p>地下1階〜2階は20:30まで、3階以上は20:00まで</p></div></div></li>
+    <li class="row move"><div class="t">17:25</div><div class="body"><div class="mv"><b>JR中央線快速</b> 新宿 → 四ツ谷（約5分）、徒歩 約10分</div></div></li>
+    <li class="row"><div class="t">17:45<small>〜17:55</small></div><div class="body"><div class="card"><h3>麹町 iijikan <span class="tag stay">受け取り</span></h3><p>麹町3-10-8。金曜は夜の部が17:00から。プリンは持ち帰ってホテルの冷蔵庫へ</p></div></div></li>
+    <li class="row move"><div class="t">17:55</div><div class="body"><div class="mv">徒歩 約8分</div></div></li>
+    <li class="row"><div class="t">18:05<small>〜18:15</small></div><div class="body"><div class="card"><h3>ホテル チェックイン</h3><p>荷物とプリンを置いて身軽に</p></div></div></li>
+    <li class="row move"><div class="t">18:15</div><div class="body"><div class="mv">平河町まで徒歩 約10分</div></div></li>
+    <li class="row fixed"><div class="t">18:30<small>〜19:30</small></div><div class="body"><div class="card"><h3>赤坂四川飯店 <span class="tag fix">予約済</span></h3><p>平河町。夕食</p></div></div></li>
+    <li class="row move"><div class="t">19:35</div><div class="body"><div class="mv"><b>有楽町線</b> 永田町 → 銀座一丁目（約10分）</div></div></li>
+    <li class="row"><div class="t">20:00<small>〜21:00</small></div><div class="body"><div class="card"><h3>日比谷BAR WHISKY-S <span class="tag stay">1時間</span></h3><p>店名は「日比谷」でも場所は銀座（銀座駅近く）</p></div></div></li>
+    <li class="row move"><div class="t">21:05</div><div class="body"><div class="mv"><b>有楽町線</b> 銀座一丁目 → 麹町（約10分）、徒歩 約8分</div></div></li>
+    <li class="row"><div class="t">21:30</div><div class="body"><div class="card"><h3>ホテル着　プリンタイム</h3><p>ゆっくり休む</p></div></div></li>
+  </ol>
+</section>
+
+<section id="d2">
+  <div class="dayhead"><h2>10/31（土）</h2><span class="sub">研修 → 有楽町・新橋 → お台場 → 舞浜 → 羽田</span></div>
+  <ol class="tl">
+    <li class="row"><div class="t">9:30</div><div class="body"><div class="card"><h3>チェックアウト</h3><p>荷物は持って出発（このあとホテルに戻らない動線）</p></div></div></li>
+    <li class="row move"><div class="t">9:35</div><div class="body"><div class="mv">三番町まで徒歩 約10分</div></div></li>
+    <li class="row fixed"><div class="t">10:00<small>〜12:00</small></div><div class="body"><div class="card"><h3>ICD-11研修（日本病院会） <span class="tag fix">固定</span></h3><p>千代田区三番町</p></div></div></li>
+    <li class="row move"><div class="t">12:05</div><div class="body"><div class="mv">市ケ谷駅まで徒歩 約8分 → <b>有楽町線</b> 有楽町（約10分）</div></div></li>
+    <li class="row"><div class="t">12:30<small>〜12:50</small></div><div class="body"><div class="card"><h3>阪急メンズ東京 <span class="tag stay">20分</span></h3><p>有楽町2-5-1</p></div></div></li>
+    <li class="row move"><div class="t">12:50</div><div class="body"><div class="mv">新橋まで徒歩 約12分（JRなら1駅）</div></div></li>
+    <li class="row"><div class="t">13:05<small>〜13:35</small></div><div class="body"><div class="card"><h3>YONEX TOKYO SHOWROOM <span class="tag stay">30分</span></h3><p>新橋1-12-9。新橋駅から徒歩1分</p></div></div></li>
+    <li class="row move"><div class="t">13:45</div><div class="body"><div class="mv"><b>ゆりかもめ</b> 新橋 → 台場（約15分）</div></div></li>
+    <li class="row"><div class="t">14:05<small>〜14:35</small></div><div class="body"><div class="card"><h3>昼食（ダイバーシティ東京 フードコート）</h3><p>研修後の昼食はここで。新橋で先に食べてもOK</p></div></div></li>
+    <li class="row"><div class="t">14:35<small>〜15:35</small></div><div class="body"><div class="card"><h3>ガンダムベース東京 <span class="tag stay">最大1時間</span> <span class="tag warn">土曜は整理券の可能性</span></h3><p>ダイバーシティ東京 プラザ7階。外にユニコーンガンダム立像</p></div></div></li>
+    <li class="row move"><div class="t">15:40</div><div class="body"><div class="mv"><b>りんかい線</b> 東京テレポート → 新木場 → <b>JR京葉線</b> 舞浜（約30分）</div></div></li>
+    <li class="row"><div class="t">16:15<small>〜16:45</small></div><div class="body"><div class="card"><h3>ボン・ヴォヤージュ（舞浜） <span class="tag stay">最大30分</span></h3><p>舞浜駅前。パークのチケット不要。遅れていたらここを短縮</p></div></div></li>
+    <li class="row move"><div class="t">16:55</div><div class="body"><div class="mv"><b>JR京葉線</b> 新木場 → <b>りんかい線</b> 天王洲アイル → <b>東京モノレール</b> 羽田第2（約55分）</div></div></li>
+    <li class="row fixed"><div class="t">17:50</div><div class="body"><div class="card"><h3>羽田空港 第2ターミナル 着 <span class="tag fix">18:30までに</span></h3><p>40分の余裕。夕食やお土産は空港で</p></div></div></li>
+    <li class="row fixed"><div class="t">20:20</div><div class="body"><div class="card"><h3>羽田 → 秋田 出発 <span class="tag fix">固定</span></h3><p>21:30 秋田空港着</p></div></div></li>
+  </ol>
+</section>
+
+<div class="notes" id="memo">
+  <h2>出発前に確認しておくこと</h2>
+  <ul>
+    <li><b>iijikan</b>：受け取り時間を17:45ごろで伝えておく。金曜は昼の部が15:30まで、夜の部が17:00から。</li>
+    <li><b>ガンダムベース東京</b>：週末は事前整理券が要る日あり。前日に公式サイトを確認。（渋谷PARCO店は11/20開業なので今回は対象外）</li>
+    <li><b>ボン・ヴォヤージュ</b>：来店予約制の時期あり（5日前の11時から受付）。予約要否を確認。</li>
+    <li><b>2日目は荷物持ち歩き</b>：重ければ有楽町駅か新橋駅のコインロッカー、または羽田の手荷物預かりを活用。</li>
+    <li>時間が押したら優先度の低い順に削る：阪急メンズ → ボン・ヴォヤージュ → YONEX。</li>
+  </ul>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>行き先</th><th>営業時間（目安）</th><th>場所</th></tr></thead>
+      <tbody>
+        <tr><td>一蘭 原宿神宮前店</td><td class="h">10:00–22:45</td><td>明治神宮前駅すぐ</td></tr>
+        <tr><td>キデイランド原宿</td><td class="h">平日 11:00–21:00</td><td>神宮前6-1-9</td></tr>
+        <tr><td>京王百貨店 新宿店</td><td class="h">10:00–20:30 / 20:00</td><td>新宿駅西口</td></tr>
+        <tr><td>iijikan</td><td class="h">金 17:00–22:00<br>土 12:00–17:00</td><td>麹町3-10-8</td></tr>
+        <tr><td>ガンダムベース東京</td><td class="h">10:00–21:00</td><td>ダイバーシティ東京 7F</td></tr>
+        <tr><td>YONEX TOKYO SHOWROOM</td><td class="h">要確認</td><td>新橋1-12-9</td></tr>
+        <tr><td>阪急メンズ東京</td><td class="h">要確認</td><td>有楽町2-5-1</td></tr>
+        <tr><td>東急プラザ表参道</td><td class="h">要確認</td><td>神宮前交差点</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<footer>移動時間は乗換込みの目安です。10月28日時点の情報。</footer>
+</div>
+
+</body>
+</html>
